@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getUserById(Integer userId) {
         String sql = "SELECT user_id, email, password, created_date, last_modified_date "
-                + "FROM mall.`user` WHERE user_id = :userId";
+                + "FROM `user` WHERE user_id = :userId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
 
-        String sql = "INSERT INTO mall.`user`(email, password, created_date, last_modified_date)"
+        String sql = "INSERT INTO `user`(email, password, created_date, last_modified_date)"
                 + "VALUES (:email, :password, :createdDate, :lastModifiedDate)";
 
         Map<String, Object> map = new HashMap<>();
