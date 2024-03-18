@@ -1,6 +1,7 @@
 package com.sblyu.springbootmember.service.impl;
 
 import com.sblyu.springbootmember.dao.UserDao;
+import com.sblyu.springbootmember.dto.UserLoginRequest;
 import com.sblyu.springbootmember.dto.UserRegisterRequest;
 import com.sblyu.springbootmember.model.User;
 import com.sblyu.springbootmember.service.UserService;
@@ -37,5 +38,23 @@ public class UserServiceImpl implements UserService {
 
         //創建帳號
         return userDao.createUser(userRegisterRequest);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user=userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if(user == null){
+            log.warn("該 email {} 尚未註冊",userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if(user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        }else{
+            log.warn("email {} 密碼錯誤",userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
